@@ -21,9 +21,11 @@ const addUser = async (req, res) => {
     const result = await db.query("select * from users where email = $1;", [
       email,
     ]);
-    const token = jwt.sign(result.rows[0], process.env.JWT_SECRET);
-    if (result.rows.length !== 0)
-      return res.status(201).json({ message: "Success", token: token });
+
+    if (result.rows.length !== 0) {
+      const token2 = jwt.sign(result.rows[0], process.env.JWT_SECRET);
+      return res.status(201).json({ message: "Success", token: token2 });
+    }
     let role;
     if (roleCode === "lizard7Rd3@") {
       role = "0479Admin0004";
